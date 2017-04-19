@@ -86,10 +86,13 @@ class Line{
   
   void update(PVector px){
     center = px.copy();
+    pos1 = pos1.copy();
+    pos2 = pos2.copy();
   }
   
   void show(PVector px){
-    //point(center.x, center.y);    
-    line(center.x+pos1.x, center.y+pos1.y, center.x+pos2.x, center.y+pos2.y);
+    point(center.x, center.y);    
+    line(pos1.x, pos1.y, pos2.x, pos2.y);
+    //line(center.x+pos1.x, center.y+pos1.y, center.x+pos2.x, center.y+pos2.y);
   }
 }

@@ -106,6 +106,8 @@ class Bullet{
     for(int i = 0; i < asteroids.size(); i++){
       Asteroid as = asteroids.get(i);
       for(Line l: as.lines){
+        println(pos, prevPos);
+        println(l.pos1, l.pos2);
         if(doIntersect(pos, prevPos, l.pos1, l.pos2)){
           println("HIT");
         }
