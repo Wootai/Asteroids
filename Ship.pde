@@ -4,7 +4,9 @@ class Ship{
   PVector acc;
   PShape s;
   float rotation;
+  float heading;
   Bullet b;
+  float maxBoost;
   
   Ship(float x, float y){
     pos = new PVector(x, y);
@@ -12,10 +14,15 @@ class Ship{
     acc = new PVector(0,0);
     s = build();
     rotation = 0;
+    heading = rotation;
+    maxBoost = 2;
   }
   
   void update(){
     vel.add(acc);
+    if(vel.mag() > maxBoost){
+      vel.setMag(maxBoost);
+    }
     pos.add(vel);
     if(pos.x > width+s.getWidth()){
       pos.x = 0 - s.getWidth()/2;
@@ -44,6 +51,7 @@ class Ship{
       else if (b.pos.y < 0 - s.getWidth()){
         b = null;
         }
+  
     }
     
     if(b != null){
@@ -53,11 +61,10 @@ class Ship{
   }
   
   void show(){
-    pushMatrix();
-    translate(pos.x, pos.y);
-    rotate(rotation);
-    shape(s, 0, 0);
-    popMatrix();
+    s.rotate(rotation);
+    heading += rotation;
+    rotation = 0;
+    shape(s, pos.x, pos.y);
     stroke(255);
   } 
   
@@ -73,13 +80,13 @@ class Ship{
     return r;
   }
   void boost(){
-    PVector dir = new PVector(sin(-rotation), cos(-rotation));
+    PVector dir = new PVector(sin(-heading), cos(-heading));
     dir.setMag(.5);
     acc.sub(dir);
   }
   void shoot(){
     if(b==null){
-      b = new Bullet(pos.x, pos.y, sin(-rotation), cos(-rotation));  
+      b = new Bullet(pos.x, pos.y, sin(-heading), cos(-heading));  
     }
   }
 }

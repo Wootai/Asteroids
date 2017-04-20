@@ -4,6 +4,7 @@ void keyPressed(){
   }
   if (keyCode == RIGHT){
     ship.rotation +=.1;
+
   }
   if (keyCode == UP){
     ship.boost();
