@@ -11,8 +11,14 @@ int orientation(PVector p, PVector q, PVector r){
     if(val>0){return 1;}
     else{return 2;}
 }
-
-boolean doIntersect(PVector p1, PVector q1, PVector p2, PVector q2){
+  
+boolean doIntersect(float a1x1, float a1y1, float a1x2, float a1y2, float a2x1, float a2y1, float a2x2, float a2y2){
+    
+    PVector p1 = new PVector(a1x1, a1y1);
+    PVector q1 = new PVector(a1x2, a1y2);
+    PVector p2 = new PVector(a2x1, a2y1);
+    PVector q2 = new PVector(a2x2, a2y2);
+    
     int o1 = orientation(p1, q1, p2);
     int o2 = orientation(p1, q1, q2);
     int o3 = orientation(p2, q2, p1);

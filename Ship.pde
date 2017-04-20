@@ -6,16 +6,18 @@ class Ship{
   float rotation;
   float heading;
   Bullet b;
+  ArrayList<Bullet> bullets;
   float maxBoost;
   
   Ship(float x, float y){
+    bullets = new ArrayList<Bullet>();
     pos = new PVector(x, y);
     vel = new PVector(0,0);
     acc = new PVector(0,0);
     s = build();
     rotation = 0;
     heading = rotation;
-    maxBoost = 2;
+    maxBoost = 1.5;
   }
   
   void update(){
@@ -38,23 +40,26 @@ class Ship{
     }
     acc.mult(0);
     
-    if(b!= null){
-      if(b.pos.x > width+s.getWidth()){
-        b = null;
-        }
-      else if(b.pos.y > height+s.getWidth()){
-        b = null;
-        }
-      else if(b.pos.x < 0 - s.getWidth()){
-        b = null;
-        }
-      else if (b.pos.y < 0 - s.getWidth()){
-        b = null;
-        }
-  
-    }
     
-    if(b != null){
+    for(int i = bullets.size()-1; i >= 0; i--){
+      b = bullets.get(i); 
+      if(b.pos.x > width+s.getWidth()){
+          bullets.remove(b);
+          }
+        else if(b.pos.y > height+s.getWidth()){
+          bullets.remove(b);
+          }
+        else if(b.pos.x < 0 - s.getWidth()){
+          bullets.remove(b);
+          }
+        else if (b.pos.y < 0 - s.getWidth()){
+          bullets.remove(b);
+          }
+        }
+      
+      
+  for(int i = bullets.size()-1; i >=0; i--){
+      b = bullets.get(i);
       b.update();
       b.show();
     }
@@ -85,8 +90,8 @@ class Ship{
     acc.sub(dir);
   }
   void shoot(){
-    if(b==null){
-      b = new Bullet(pos.x, pos.y, sin(-heading), cos(-heading));  
+    if(bullets.size() <= 4){
+      bullets.add(new Bullet(pos.x, pos.y, sin(-heading), cos(-heading)));  
     }
   }
 }
@@ -103,7 +108,7 @@ class Bullet{
   }
   
   void update(){
-    collision();  //Collision is not working properly
+    collision();
     vel.setMag(2);
     prevPos = pos.copy();
     pos.sub(vel);
@@ -111,21 +116,23 @@ class Bullet{
   
   void collision(){
     for(int i = 0; i < asteroids.size(); i++){
-      Asteroid as = asteroids.get(i);
-      for(Line l: as.lines){
-        println(pos, prevPos);
-        println(l.pos1, l.pos2);
-        if(doIntersect(pos, prevPos, l.pos1, l.pos2)){
+      Asteroid a = asteroids.get(i);
+      for(Line l: a.lines){
+        if(doIntersect(pos.x, pos.y, prevPos.x, prevPos.y, l.pos1.x+l.center.x, l.pos1.y+l.center.y, l.pos2.x+l.center.x, l.pos2.y+l.center.y)){
           println("HIT");
+          ship.bullets.remove(this);
+          float os = a.scale;
+          Asteroid ab = new Asteroid(a.pos.x, a.pos.y, a.sides-1);
+          Asteroid ac = new Asteroid(a.pos.x, a.pos.y, a.sides-1);
+          asteroids.add(ab);
+          asteroids.add(ac);
+          asteroids.remove(a);
         }
       }
     }
   }
   
   void show(){
-    strokeWeight(3);
-    point(pos.x, pos.y);
-    strokeWeight(1);
-    line(pos.x, pos.y, prevPos.x, prevPos.y);
+     point(pos.x, pos.y);
   }
 }

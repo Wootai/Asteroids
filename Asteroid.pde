@@ -19,7 +19,6 @@ class Asteroid{
   
   void update(){
     pos.add(vel);
-
     for(Line l: lines){
       l.update(pos);
     }
@@ -39,11 +38,8 @@ class Asteroid{
   }
   
   void show(){
-    //strokeWeight(10);
-    //point(pos.x, pos.y);
-    //strokeWeight(1);
     for(Line l: lines){
-      l.show(pos);
+      l.show();
     }
   }  
     
@@ -86,13 +82,10 @@ class Line{
   
   void update(PVector px){
     center = px.copy();
-    pos1 = pos1.copy();
-    pos2 = pos2.copy();
+
   }
   
-  void show(PVector px){
-    point(center.x, center.y);    
-    line(pos1.x, pos1.y, pos2.x, pos2.y);
-    //line(center.x+pos1.x, center.y+pos1.y, center.x+pos2.x, center.y+pos2.y);
+  void show(){
+    line(center.x + pos1.x, center.y+pos1.y, center.x+pos2.x, center.y+pos2.y);
   }
 }
