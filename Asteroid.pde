@@ -8,11 +8,11 @@ class Asteroid{
   
   ArrayList<Line> lines;
   
-  Asteroid(float x, float y, int _sides){
+  Asteroid(float x, float y, int _sides, float _scale){
     pos = new PVector(x, y);
     vel = new PVector(random(-1, 1), random(-1,1));
     lines = new ArrayList<Line>();
-    scale = 1;
+    scale = _scale;
     sides = _sides;
     build();    
   }
@@ -49,12 +49,10 @@ class Asteroid{
     float x2 = 0;
     float y1;
     float y2 = 0;
-    
     x1 = cos(0 * 0.1 * TWO_PI)*(random(10, 40)*scale);
     y1 = sin(0 * 0.1 * TWO_PI)*(random(10, 40)*scale);
     float ox = x1;
     float oy = y1;
-    
     for(int i = 1; i < sides; i++){
       x2 = cos(i * 0.1 * TWO_PI)*(random(10, 40)*scale);
       y2 = sin(i * 0.1 * TWO_PI)*(random(10, 40)*scale);
@@ -66,26 +64,5 @@ class Asteroid{
     
     l = new Line(x2, y2, ox, oy, pos.x, pos.y);
     lines.add(l);
-  }
-}
-
-class Line{
-  PVector pos1;
-  PVector pos2;
-  PVector center;
-  
-  Line(float x, float y, float xx, float yy, float cx, float cy){
-    pos1 = new PVector(x, y);
-    pos2 = new PVector(xx, yy);
-    center = new PVector(cx, cy);
-  }
-  
-  void update(PVector px){
-    center = px.copy();
-
-  }
-  
-  void show(){
-    line(center.x + pos1.x, center.y+pos1.y, center.x+pos2.x, center.y+pos2.y);
   }
 }

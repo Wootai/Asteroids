@@ -7,9 +7,11 @@ class Ship{
   float heading;
   Bullet b;
   ArrayList<Bullet> bullets;
+  ArrayList<Line> shape;
   float maxBoost;
   
   Ship(float x, float y){
+    shape = new ArrayList<Line>();
     bullets = new ArrayList<Bullet>();
     pos = new PVector(x, y);
     vel = new PVector(0,0);
@@ -69,11 +71,25 @@ class Ship{
     s.rotate(rotation);
     heading += rotation;
     rotation = 0;
-    shape(s, pos.x, pos.y);
+    //shape(s, pos.x, pos.y);
     stroke(255);
+    
+    for(Line l: shape){
+      l.update(pos);
+      l.show();
+    }
+    
   } 
   
   PShape build(){
+    Line l;
+    l = new Line(pos.x, pos.y + 7, pos.x - 6, pos.y + 4 , pos.x, pos.y);
+    shape.add(l);
+    l = new Line(pos.x - 6, pos.y + 4, pos.x + 6, pos.y + 4, pos.x, pos.y);
+    shape.add(l);
+    l = new Line(pos.x + 6, pos.y + 4, pos.x, pos.y + 7, pos.x, pos.y);
+    shape.add(l);
+    
     PShape r = createShape();
     r.beginShape();
     r.noFill();
@@ -93,46 +109,5 @@ class Ship{
     if(bullets.size() <= 4){
       bullets.add(new Bullet(pos.x, pos.y, sin(-heading), cos(-heading)));  
     }
-  }
-}
-
-class Bullet{
-  PVector pos;
-  PVector vel;
-  PVector prevPos;
-  
-  Bullet(float x, float y, float vx, float vy){
-    pos = new PVector(x, y);
-    vel = new PVector(vx, vy);
-    prevPos = new PVector(x,y);
-  }
-  
-  void update(){
-    collision();
-    vel.setMag(2);
-    prevPos = pos.copy();
-    pos.sub(vel);
-  }
-  
-  void collision(){
-    for(int i = 0; i < asteroids.size(); i++){
-      Asteroid a = asteroids.get(i);
-      for(Line l: a.lines){
-        if(doIntersect(pos.x, pos.y, prevPos.x, prevPos.y, l.pos1.x+l.center.x, l.pos1.y+l.center.y, l.pos2.x+l.center.x, l.pos2.y+l.center.y)){
-          println("HIT");
-          ship.bullets.remove(this);
-          float os = a.scale;
-          Asteroid ab = new Asteroid(a.pos.x, a.pos.y, a.sides-1);
-          Asteroid ac = new Asteroid(a.pos.x, a.pos.y, a.sides-1);
-          asteroids.add(ab);
-          asteroids.add(ac);
-          asteroids.remove(a);
-        }
-      }
-    }
-  }
-  
-  void show(){
-     point(pos.x, pos.y);
   }
 }

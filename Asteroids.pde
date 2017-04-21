@@ -6,8 +6,8 @@ void setup(){
   size(800, 600);
   asteroids = new ArrayList<Asteroid>();
 
-  for(int i = 0; i < 1; i++){
-    a = new Asteroid(random(width), random(height), 10);
+  for(int i = 0; i < 4; i++){
+    a = new Asteroid(random(width), random(height), 10, 1);
     asteroids.add(a);
   }
   
