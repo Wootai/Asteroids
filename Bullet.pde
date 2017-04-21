@@ -21,7 +21,6 @@ class Bullet{
       Asteroid a = asteroids.get(i);
       for(Line l: a.lines){
         if(doIntersect(pos.x, pos.y, prevPos.x, prevPos.y, l.pos1.x+l.center.x, l.pos1.y+l.center.y, l.pos2.x+l.center.x, l.pos2.y+l.center.y)){
-          println("HIT");
           ship.bullets.remove(this);
           float os = a.scale;
             Asteroid ab = new Asteroid(a.pos.x, a.pos.y, a.sides-1, os*.5);

@@ -71,24 +71,24 @@ class Ship{
     s.rotate(rotation);
     heading += rotation;
     rotation = 0;
-    //shape(s, pos.x, pos.y);
+    shape(s, pos.x, pos.y);
     stroke(255);
     
-    for(Line l: shape){
-      l.update(pos);
-      l.show();
-    }
+    //for(Line l: shape){
+    //  l.update(pos);
+    //  l.show();
+    //}
     
   } 
   
   PShape build(){
-    Line l;
-    l = new Line(pos.x, pos.y + 7, pos.x - 6, pos.y + 4 , pos.x, pos.y);
-    shape.add(l);
-    l = new Line(pos.x - 6, pos.y + 4, pos.x + 6, pos.y + 4, pos.x, pos.y);
-    shape.add(l);
-    l = new Line(pos.x + 6, pos.y + 4, pos.x, pos.y + 7, pos.x, pos.y);
-    shape.add(l);
+    //Line l;
+    //l = new Line(pos.x, pos.y + 7, pos.x - 6, pos.y + 4 , pos.x, pos.y);
+    //shape.add(l);
+    //l = new Line(pos.x - 6, pos.y + 4, pos.x + 6, pos.y + 4, pos.x, pos.y);
+    //shape.add(l);
+    //l = new Line(pos.x + 6, pos.y + 4, pos.x, pos.y + 7, pos.x, pos.y);
+    //shape.add(l);
     
     PShape r = createShape();
     r.beginShape();
